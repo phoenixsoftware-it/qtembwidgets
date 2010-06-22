@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>brushedmetal.png</file>
+        <file>catalog.css</file>
+        <file>qtlogo-16.png</file>
+    </qresource>
+</RCC>

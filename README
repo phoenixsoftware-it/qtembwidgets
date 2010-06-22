@@ -1,0 +1,74 @@
+	README
+
+These instructions refer to the package you are installing as
+some-package.tar.gz.
+
+Acronyms:
+your-install-dir - The directory you choose for the installation
+some-package - the package to install
+your-mkspecs - qt configure mkspecs used to generate the qt sdk (libraries) for your target platform. It can be 
+		found under mkspecs/qws/your-mkspecs in qt sdk e.g <QT-SDK>/mkspecs/qws/linux-arm-g++
+
+
+Unpacking, Building, Installing and Running the Demo:
+----------------------------------------------------
+It is assumed that you have already built the qt embedded sdk needed for running qt on your target. If not, then you can build qt using http://processors.wiki.ti.com/index.php/Building_Qt
+
+1.  Unpack the archive if you have not done so already.
+
+	$cd your-install-dir
+	$tar xzvf some-package.tar.gz
+
+    This creates the subdirectory some-package containing the files.
+
+2.  Enter the package directory and configure the package:
+
+	$cd some-package
+	$qmake -spec qws/your-mkspecs
+
+3.  To build the package and examples
+
+	$make
+
+4.  Copying the catalog_ti demo to the target filesystem
+
+	$cp <your-install-dir>/examples/catalog_ti/catalog_ti <path/to/your/target/filesystem>
+
+5.  Export the LD_LIBRARY_PATH on your target to get the qt libraries in path. 
+
+	$export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib:/path/to/qt/lib/on/filesystem
+
+6.  Running the demo on your target
+	
+	$catalog_ti -qws
+
+7.  For more options running the demo, please refer to the Demo HELP.
+	
+	$catalog_ti -qws -h
+	
+
+Using a component in your project
+---------------------------------
+
+The directory your-install-dir/src includes all the source code for the
+component. To use this component in your project:
+
+1.  Add the following line
+
+	include(your-install-dir/src/some-package.pri)
+
+    to the project's .pro file.
+
+2.  Run qmake on the project's .pro file.
+
+This adds the package's sources and headers to the SOURCES and HEADERS
+qmake variables respectively, and update INCLUDEPATH to contain the
+package's src directory. Additionally, the .pri file may include some
+dependencies needed by the package.
+
+To include a header file from the package in your sources, you can now
+simply use:
+
+    #include <some-package.h>
+
+
