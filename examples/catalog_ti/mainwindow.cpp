@@ -22,7 +22,9 @@
  * - modification to automate the size of gauge widgets in the embedded/non-embedded mode
  * - added the Start/Stop Automation Button & functionality
  * - changed the layout to suit the small lcd screen of TI EVM
- * - 
+ * 2010/06/29 - v1.2
+ * - Added the Exit Button and its handling functions
+ *  
  */
 
 #include "mainwindow.h"
@@ -87,6 +89,7 @@ MainWindow::MainWindow()
     tw->addTab(createThermometer(), tr("Thermometer"));
     tw->addTab(createAmperemeter(), tr("Amperemeter"));
     tw->addTab(createGraphs(), tr("Graphs"));
+    tw->addTab(createExit(), tr(" Exit "));
 
     connect(tw, SIGNAL(currentChanged(int)), this, SLOT(mainTimerControl(int)));
 
@@ -359,7 +362,12 @@ void MainWindow::toggleShowOverlay3(bool b)
     foreach (QtSvgDialGauge *gauge, m_overlay_button3->parentWidget()->findChildren<QtSvgDialGauge *>())
                 gauge->setShowOverlay(b);
 }
-      
+
+QWidget *MainWindow::createExit()
+{
+	QWidget *page = new QWidget();	
+	return page;
+}
 
 /*!
     fill sheet "Graphs" with the graphs
@@ -617,6 +625,9 @@ void MainWindow::mainTimerControlAccessory (int index, bool b)
 	case AMPEREMETER:
 		toggleTimerControl3(b);
                 break;
+	case EXIT:
+		this->close();
+		break;
 	case GRAPHS:
 	default:
 		break;

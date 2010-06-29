@@ -18,6 +18,8 @@
  * - added private slots: SliderxUpdate, toggleShowOverlayx, SliderxUpdate, mainTimerControl
  * - added protected methods: createTachmeter, createThermometer, createAmperemeter
  * - added needed variables & arrays
+ * 2010/06/29 - v1.2
+ * - added the Exit Button and its handling code
  */
 
 #ifndef MAIN_WINDOW_H
@@ -29,6 +31,7 @@
 #define THERMOMETER 1
 #define AMPEREMETER 2
 #define GRAPHS 3
+#define EXIT 4
 #define TIMEOUT 30
 
 class QtBasicGraph;
@@ -65,6 +68,7 @@ protected:
     QWidget *createThermometer(bool with_overlay = true);
     QWidget *createAmperemeter(bool with_overlay = true);
     QWidget *createGraphs();
+    QWidget *createExit();
 
     void fillStaticGraph(QtBasicGraph *graph);
     

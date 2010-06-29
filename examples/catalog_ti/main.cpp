@@ -17,6 +17,8 @@
  * 2010/05/20 - v1.0
  * - added mouse support/command line application argument
  * - added tab focus command line application argument
+ * 2010/06/29 - v1.2
+ * - added the splash screen 
  */
 
 #include <QtGui>
@@ -50,6 +52,12 @@ int main(int argc, char* argv[])
             return 0;
         }
     }
+
+    QPixmap pixmap(":/QtEmbeddedSplash.png");
+    QPixmap spixmap = pixmap.scaled(640, 480, Qt::KeepAspectRatio, Qt::FastTransformation);
+    QSplashScreen splash(spixmap);
+    splash.show();
+    sleep(2);
 
     MainWindow* mainWindow = new MainWindow();
     mainWindow->show();

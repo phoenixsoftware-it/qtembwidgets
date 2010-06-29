@@ -3,5 +3,6 @@
         <file>brushedmetal.png</file>
         <file>catalog.css</file>
         <file>qtlogo-16.png</file>
+        <file>QtEmbeddedSplash.png</file>
     </qresource>
 </RCC>
