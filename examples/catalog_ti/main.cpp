@@ -19,9 +19,14 @@
  * - added tab focus command line application argument
  * 2010/06/29 - v1.2
  * - added the splash screen 
+ * - added the variable resolution support for splash screen
  */
 
 #include <QtGui>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/fb.h>
+
 
 #include "mainwindow.h"
 
@@ -34,6 +39,37 @@ int main(int argc, char* argv[])
         app.setStyleSheet(f.readAll());
         f.close();
     }
+
+	QSize *fbDisplaySize = new QSize(640, 480); 
+
+	int fbHandle = open("/dev/fb0", O_RDWR);
+	if (fbHandle >= 0){
+		struct fb_var_screeninfo var;
+		int ret = ioctl(fbHandle, FBIOGET_VSCREENINFO, &var);
+		if(ret < 0) {
+			qDebug() << "Cannot get variable screen information";
+			qDebug() << "Splash Screen will be of the default size: 640x480";
+			close(fbHandle);
+		} else {
+			fbDisplaySize->setWidth(var.xres);
+			fbDisplaySize->setHeight(var.yres); 
+
+			for (int i = 0; i < argc; ++i) {
+				if (QString(argv[i]) == QString("-r") ||
+					QString(argv[i]) == QString("-R")) {
+					fbDisplaySize->setWidth(var.yres);
+            		fbDisplaySize->setHeight(var.xres);
+				}
+			}	
+
+	//		qDebug() << "w" << fbDisplaySize->width() << "h" << fbDisplaySize->height();
+			close(fbHandle);
+		}
+	} else {
+		qDebug() << "Error Querying in the size of the framebuffer";
+		qDebug() << "Splash Screen will be of the default size: 640x480";
+	}
+		
        
     for (int i = 0; i < argc; ++i) {
         if (QString(argv[i]) == QString("-h") ||
@@ -48,18 +84,19 @@ int main(int argc, char* argv[])
 		qDebug() << " -amperemeter : shows Amperemeter";
 		qDebug() << " -graphs : shows Graphs";
 		qDebug() << " -no-mouse : hides the mouse";
+		qDebug() << " -r : rotates the splash screen - Use with -display Transformed:rot90|270";
 
             return 0;
         }
     }
 
     QPixmap pixmap(":/QtEmbeddedSplash.png");
-    QPixmap spixmap = pixmap.scaled(640, 480, Qt::KeepAspectRatio, Qt::FastTransformation);
+    QPixmap spixmap = pixmap.scaled(fbDisplaySize->width(), fbDisplaySize->height(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QSplashScreen splash(spixmap);
     splash.show();
-    sleep(2);
-
+	sleep(1);
     MainWindow* mainWindow = new MainWindow();
     mainWindow->show();
+	splash.finish(mainWindow);
     return app.exec();
 }
