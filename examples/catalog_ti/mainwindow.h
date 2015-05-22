@@ -26,6 +26,9 @@
 #define MAIN_WINDOW_H
 
 #include <QtGui>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtWidgets>
+#endif
 
 #define TACHOMETER 0
 #define THERMOMETER 1

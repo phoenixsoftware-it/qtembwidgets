@@ -8,7 +8,7 @@
 
 #ifndef QT_SVG_DIAL_GAUGE
 #define QT_SVG_DIAL_GAUGE
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QtCore/QPair>
 
 class QSvgRenderer;

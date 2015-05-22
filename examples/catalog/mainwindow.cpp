@@ -91,7 +91,9 @@ MainWindow::MainWindow()
     connect(m_graph_timer, SIGNAL(timeout()), this, SLOT(generatorTick()));
 
     QTabWidget *tw = new QTabWidget(this);
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
     tw->setStyle(new QWindowsStyle());
+#endif
     static_cast<HackTabWidget *>(tw)->tabBar()->setFocusPolicy(Qt::NoFocus);
     QBoxLayout *lay = new QVBoxLayout(this);
     int t;
@@ -441,7 +443,9 @@ QWidget *MainWindow::createGraphs()
 
     // create sinus graph and model
     m_graph = new QtBasicGraph(group);
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
     m_graph->setStyle(new QWindowsStyle());
+#endif
     m_graph->setProperty("isEmbedded", m_embedded);
     m_graph->setFocusPolicy(Qt::NoFocus);
     if (!m_embedded)

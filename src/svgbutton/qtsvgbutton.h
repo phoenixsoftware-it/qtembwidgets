@@ -9,7 +9,7 @@
 #ifndef QT_SVG_BUTTON_H
 #define QT_SVG_BUTTON_H
 
-#include <QtGui/QAbstractButton>
+#include <QAbstractButton>
 #include <QtGui/QPicture>
 
 class QSvgRenderer;
