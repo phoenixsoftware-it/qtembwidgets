@@ -106,6 +106,8 @@ MainWindow::MainWindow()
     tw->addTab(createAdvanced(), tr("Advanced"));
     tw->addTab(createSliders(), tr("Sliders"));
     tw->addTab(createGraphs(), tr("Graphs"));
+    tw->addTab(createExit(), tr("Exit"));
+    connect(tw, SIGNAL(currentChanged(int)), this, SLOT(checkExit(int)));
 
     if (!m_embedded) {
         resize(800, 600);
@@ -426,6 +428,18 @@ QWidget *MainWindow::createSliders()
     grid->setRowStretch(grid->rowCount(), 100);
     
     return page;
+}
+
+void MainWindow::checkExit (int index)
+{
+	if (index == 5)
+		close();
+}
+
+QWidget *MainWindow::createExit()
+{
+	QWidget *page = new QWidget();
+	return page;
 }
 
 /*!

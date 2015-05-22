@@ -27,6 +27,7 @@ private slots:
     void showGraph(int index);
     void toggleShowOverlay(bool);
     void generatorTick();
+    void checkExit(int index);
 
 protected:
     QWidget *createGauges(bool with_overlay = true);
@@ -34,6 +35,7 @@ protected:
     QWidget *createSliders();
     QWidget *createAdvanced();
     QWidget *createGraphs();
+    QWidget *createExit();
 
     void fillStaticGraph(QtBasicGraph *graph);
     
