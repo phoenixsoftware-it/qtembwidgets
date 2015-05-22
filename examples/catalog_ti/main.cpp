@@ -33,6 +33,7 @@
 
 int main(int argc, char* argv[])
 {
+    bool showSplash = true;
     QApplication app(argc, argv);
     
     QFile f(":/catalog.css");
@@ -89,15 +90,22 @@ int main(int argc, char* argv[])
 
             return 0;
         }
+        if (QString(argv[i]) == QString("-nosplash"))
+            showSplash = false;
     }
 
-    QPixmap pixmap(":/QtEmbeddedSplash.png");
-    QPixmap spixmap = pixmap.scaled(fbDisplaySize->width(), fbDisplaySize->height(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    QSplashScreen splash(spixmap);
-    splash.show();
+    if (showSplash) {
+        QPixmap pixmap(":/QtEmbeddedSplash.png");
+        QPixmap spixmap = pixmap.scaled(fbDisplaySize->width(), fbDisplaySize->height(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QSplashScreen splash(spixmap);
+        splash.show();
 	sleep(1);
-    MainWindow* mainWindow = new MainWindow();
-    mainWindow->show();
+        MainWindow* mainWindow = new MainWindow();
+        mainWindow->show();
 	splash.finish(mainWindow);
+    } else {
+        MainWindow* mainWindow = new MainWindow();
+        mainWindow->show();
+    }
     return app.exec();
 }
