@@ -47,6 +47,7 @@ private:
     PatientCareController* m_controller;
     QPixmap m_device;
     bool m_embedded;
+    bool m_embOffSwitch;
 };
 
 #endif // __MAIN_WINDOW_H__

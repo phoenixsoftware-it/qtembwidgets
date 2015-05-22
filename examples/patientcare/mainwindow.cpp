@@ -78,6 +78,7 @@ MainWindow::MainWindow()
         m_embedded = true;
     if (QApplication::arguments().contains("-no-embedded"))
         m_embedded = false;
+    m_embOffSwitch = QApplication::arguments().contains("-embOffSwitch");
 
     ui.setupUi(top);
     connect(ui.switchNightMode, SIGNAL(toggled(bool)), this, SLOT(toggleNightMode(bool)));
@@ -109,6 +110,16 @@ MainWindow::MainWindow()
 
         qApp->setOverrideCursor(Qt::BlankCursor);
         setWindowState(Qt::WindowFullScreen);
+    }
+
+    if (m_embedded && m_embOffSwitch) {
+        QtSvgToggleSwitch* offSwitch = new QtSvgToggleSwitch(this);
+        offSwitch->setSkin("Beryl");
+        offSwitch->setChecked(true);
+        offSwitch->setGeometry(60, 250, 50, 50);
+
+        connect(offSwitch, SIGNAL(toggled(bool)), top, SLOT(setVisible(bool)));
+        connect(offSwitch, SIGNAL(toggled(bool)), this, SLOT(quitDelay()));
     }
 }
 
